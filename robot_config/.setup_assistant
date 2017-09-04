@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: bernado_description
+    relative_path: robots/inmoov.urdf
+  SRDF:
+    relative_path: config/inmoov.srdf
+  CONFIG:
+    author_name: vignesh
+    author_email: ganeshs.srinivasan@gmail.com
+    generated_timestamp: 1504430184

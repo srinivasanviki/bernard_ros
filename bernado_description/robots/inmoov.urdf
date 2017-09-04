@@ -1,0 +1,449 @@
+<?xml version="1.0" ?>
+
+<robot name="inmoov" xmlns:xacro="http://ros.org/wiki/xacro">
+<link name="base_link">
+<visual>
+  <geometry>
+    <cylinder length="0.11" radius="0.26"/>
+  </geometry>
+  <origin rpy="0 0 0" xyz="0 0 0.055"/>
+  <material name="cbase">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+</visual>
+</link>
+<joint name="base_to_pedestal" type="fixed">
+  <parent link="base_link"/>
+  <child link="pedestal"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+<link name="pedestal">
+  <visual>
+    <geometry>
+      <cylinder length="0.94" radius="0.0254"/>
+    </geometry>
+    <origin rpy="0 0 0" xyz="0 0 0.58"/>
+    <material name="cbase">
+      <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="pedestal_to_mid_stomach" type="fixed">
+    <parent link="pedestal"/>
+    <child link="mid_stomach"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+<link name="mid_stomach">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/mid_stomach.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 1.152"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+</link>
+
+<joint name="waist_rotate" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+  <origin rpy="0 0 0" xyz="0 0 1.152"/>
+  <parent link="mid_stomach"/>
+  <child link="top_stomach"/>
+</joint>
+<link name="top_stomach">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/top_stomach.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+</link>
+
+<joint name="disk" type="fixed">
+  <origin rpy="0 0 0" xyz="0 0 0.09"/>
+  <parent link="top_stomach"/>
+  <child link="disk"/>
+</joint>
+
+<link name="disk">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/disk.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0.046 0"/>
+      <material name="ccover">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+</link>
+<joint name="waist_lean" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="1000.0" lower="-0.30" upper="0.30" velocity="0.5"/>
+  <origin rpy="0 0 0" xyz="0 0 0.11"/>
+  <parent link="top_stomach"/>
+  <child link="torso"/>
+</joint>
+<link name="torso">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/torso.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+</link>
+<joint name="chestplate" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.039 0.025"/>
+    <parent link="torso"/>
+    <child link="chestplate"/>
+</joint>
+<link name="chestplate">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/chest.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="ccover">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+</link>
+
+<joint name="kinect" type="fixed">
+  <origin rpy="0 0 0" xyz="0 0 0.066"/>
+  <parent link="torso"/>
+  <child link="kinect"/>
+</joint>
+
+<link name="kinect">
+ <visual>
+   <geometry>
+     <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/kinectone.stl" scale="0.001 0.001 0.001"/>
+   </geometry>
+   <origin rpy="0 0 0" xyz="0 0 0"/>
+   <material name="ckinect">
+     <color rgba="0.1 0.1 0.1 1"/>
+   </material>
+ </visual>
+</link>
+
+
+<link name="head_tilt">
+<visual>
+ <geometry>
+   <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/virtual.stl" scale="0.001 0.001 0.001"/>
+ </geometry>
+ <origin rpy="0 0 0" xyz="0 0 0"/>
+ <material name="cframe">
+   <color rgba="0.25 0.25 0.25 1"/>
+ </material>
+</visual>
+</link>
+
+<joint name="head_tilt" type="revolute">
+ <axis xyz="0 1 0"/>
+ <limit effort="1000.0" lower="-0.30" upper="0.30" velocity="0.5"/>
+ <origin rpy="0 0 0" xyz="-0.001 -0.0315 0.4551"/>
+ <parent link="torso"/>
+ <child link="head_tilt"/>
+</joint>
+<joint name="head_updown" type="revolute">
+<axis xyz="1 0 0"/>
+<limit effort="1000.0" lower="-0.30" upper="0.30" velocity="0.5"/>
+<origin rpy="0 0 0" xyz="0 0 0"/>
+<parent link="head_tilt"/>
+<child link="head_base"/>
+</joint>
+<link name="head_base">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/head_base.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <material name="cframe">
+      <color rgba="0.25 0.25 0.25 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="head_leftright" type="revolute">
+<axis xyz="0 0 1"/>
+<limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+<origin rpy="0 0 0" xyz="0 0 0.0245"/>
+<parent link="head_base"/>
+<child link="head"/>
+</joint>
+<link name="head">
+<visual>
+  <geometry>
+    <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/head.stl" scale="0.001 0.001 0.001"/>
+  </geometry>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+  <material name="cframe">
+    <color rgba="0.25 0.25 0.25 1"/>
+  </material>
+</visual>
+</link>
+<joint name="jaw" type="revolute">
+  <axis xyz="1 0 0"/>
+  <limit effort="1000.0" lower="0" upper="0.15" velocity="0.5"/>
+  <origin rpy="0.085 0 3.1415" xyz="-0.001 0.0375 0.0437"/>
+  <parent link="head"/>
+  <child link="jaw"/>
+</joint>
+<link name="jaw">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/jaw.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin rpy="0 0 3.1415" xyz="0 0 0"/>
+    <material name="ccover">
+      <color rgba="0.6 0.6 0.6 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="skull" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.001 0.044 -0.0245"/>
+    <parent link="head"/>
+    <child link="skull"/>
+</joint>
+<link name="skull">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/skull.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.001 0 0"/>
+      <material name="ccover">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+</link>
+<joint name="left_ear" type="fixed">
+  <origin rpy="0 0 0" xyz="-0.056 0.035 0.0437"/>
+  <parent link="head"/>
+  <child link="left_ear"/>
+</joint>
+<link name="left_ear">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/earleftv1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+ </visual>
+ </link>
+      <joint name="right_ear" type="fixed">
+        <origin rpy="0 0 0" xyz="0.056 0.035 0.0437"/>
+        <parent link="head"/>
+        <child link="right_ear"/>
+ </joint>
+ <link name="right_ear">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/earrightv1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="face" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0637 0.079"/>
+    <parent link="skull"/>
+    <child link="face"/>
+  </joint>
+    <link name="face">
+      <visual>
+        <geometry>
+          <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/face.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <material name="ccover">
+          <color rgba="0.6 0.6 0.6 1"/>
+        </material>
+      </visual>
+    </link>
+  <joint name="eyes_updown" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-0.45" upper="0.45" velocity="0.5"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="face"/>
+    <child link="eyesupport"/>
+  </joint>
+  <link name="eyesupport">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/eyesupport.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+  </link>
+
+<!--right hand -->
+
+<joint name="right_shoulder_side" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="1000.0" lower="-0.75" upper="0" velocity="0.5"/>
+  <origin rpy="0 0 0" xyz="0.143 0 0.298"/>
+  <parent link="torso"/>
+  <child link="right_shoulder_base"/>
+</joint>
+<link name="right_shoulder_base">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_shoulder_base.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <material name="cframe">
+      <color rgba="0.25 0.25 0.25 1"/>
+    </material>
+  </visual>
+</link>
+  <joint name="right_shoulder_up" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="0.5"/>
+    <origin rpy="0 0 0" xyz="0.012 0 -0.04"/>
+    <parent link="right_shoulder_base"/>
+    <child link="right_shoulder"/>
+  </joint>
+ <link name="right_shoulder">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_shoulder.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="cframe">
+        <color rgba="0.25 0.25 0.25 1"/>
+      </material>
+    </visual>
+  </link>
+    <joint name="right_bicep_rotate" type="revolute">
+      <axis xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+      <origin rpy="0 0 0" xyz="0.066 0 -0.060"/>
+      <parent link="right_shoulder"/>
+      <child link="right_bicep"/>
+    </joint>
+  <link name="right_bicep">
+      <visual>
+        <geometry>
+          <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/bicep.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <material name="cframe">
+          <color rgba="0.25 0.25 0.25 1"/>
+        </material>
+      </visual>
+    </link>
+
+<joint name="right_bicep" type="revolute">
+  <axis xyz="1 0 0"/>
+  <limit effort="1000.0" lower="0.4" upper="1.57" velocity="0.5"/>
+  <origin rpy="0 0 0" xyz="0 -0.0278 -0.2235"/>
+  <parent link="right_bicep"/>
+  <child link="right_forearm"/>
+</joint>
+<link name="right_forearm">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_forearm.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin rpy="0 0 0" xyz="0.001 0 0"/>
+    <material name="ccover">
+      <color rgba="0.6 0.6 0.6 1"/>
+    </material>
+  </visual>
+</link>
+
+
+
+<!-- Left Hand -->
+
+
+<joint name="left_shoulder_side" type="revolute">
+<axis xyz="0 1 0"/>
+<limit effort="1000.0" lower="0" upper="0.75" velocity="0.5"/>
+<origin rpy="0 0 0" xyz="-0.143 0 0.298"/>
+<parent link="torso"/>
+<child link="left_shoulder_base"/>
+</joint>
+<link name="left_shoulder_base">
+<visual>
+<geometry>
+ <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_shoulder_base.stl" scale="0.001 0.001 0.001"/>
+</geometry>
+<origin rpy="0 0 0" xyz="0 0 0"/>
+<material name="cframe">
+ <color rgba="0.25 0.25 0.25 1"/>
+</material>
+</visual>
+</link>
+<joint name="left_shoulder_up" type="revolute">
+<axis xyz="1 0 0"/>
+<limit effort="1000.0" lower="0" upper="3.14" velocity="0.5"/>
+<origin rpy="0 0 0" xyz="0.012 0 -0.04"/>
+<parent link="left_shoulder_base"/>
+<child link="left_shoulder"/>
+</joint>
+<link name="left_shoulder">
+<visual>
+ <geometry>
+   <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_shoulder.stl" scale="0.001 0.001 0.001"/>
+ </geometry>
+ <origin rpy="0 0 0" xyz="0 0 0"/>
+ <material name="cframe">
+   <color rgba="0.25 0.25 0.25 1"/>
+ </material>
+</visual>
+</link>
+
+<joint name="left_bicep_rotate" type="revolute">
+<axis xyz="0 0 1"/>
+<limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+<origin rpy="0 0 0" xyz="-0.066 0 -0.060"/>
+<parent link="left_shoulder"/>
+<child link="left_bicep"/>
+</joint>
+
+<link name="left_bicep">
+ <visual>
+   <geometry>
+     <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/bicep.stl" scale="0.001 0.001 0.001"/>
+   </geometry>
+   <origin rpy="0 0 0" xyz="0 0 0"/>
+   <material name="cframe">
+     <color rgba="0.25 0.25 0.25 1"/>
+   </material>
+ </visual>
+</link>
+  <joint name="left_bicep" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="0.4" upper="1.57" velocity="0.5"/>
+    <origin rpy="0 0 0" xyz="0 -0.0278 -0.2235"/>
+    <parent link="left_bicep"/>
+    <child link="left_forearm"/>
+  </joint>
+<link name="left_forearm">
+   <visual>
+     <geometry>
+       <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_forearm.stl" scale="0.001 0.001 0.001"/>
+     </geometry>
+     <origin rpy="0 0 0" xyz="-0.001 0 0"/>
+     <material name="ccover">
+       <color rgba="0.6 0.6 0.6 1"/>
+     </material>
+   </visual>
+ </link>
+</robot>
