@@ -1,13 +1,12 @@
 <launch>
-
   <!-- By default, we do not start a database (it can be large) -->
   <arg name="db" default="false" />
   <!-- Allow user to specify database location -->
+
   <arg name="db_path" default="$(find robot_config)/default_warehouse_mongo_db" />
-
   <!-- By default, we are not in debug mode -->
-  <arg name="debug" default="false" />
 
+  <arg name="debug" default="false" />
   <!--
   By default, hide joint_state_publisher's GUI
 
@@ -36,6 +35,7 @@
   <!-- Given the published joint states, publish tf for the robot links -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 
+
   <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
   <include file="$(find robot_config)/launch/move_group.launch">
     <arg name="allow_trajectory_execution" value="true"/>
@@ -53,6 +53,15 @@
   <!-- If database loading was enabled, start mongodb as well -->
   <include file="$(find robot_config)/launch/default_warehouse_db.launch" if="$(arg db)">
     <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
-  </include>
+  </include> -->
+
+    <node name="right_arm_kinematics" pkg="bernado_tools" type="right_arm_kinematics" output="screen">
+        <rosparam command="load" file="$(find robot_config)/config/kinematics.yaml"/>
+    </node>
+
+
+
+
+
 
 </launch>
