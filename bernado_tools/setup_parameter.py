@@ -7,11 +7,12 @@ import rospkg
 
 
 #topics
-rospy.set_param("right","/servobus/right")
-rospy.set_param("left","/servobus/left")
+rospy.set_param("move","/servobus/move")
+
+
+rospy.set_param("API_AI_TOKEN","b4cb129a45044853a29fbefcf350b035")
  
 #right arm
-rospy.set_param("joint_names",['right_pinky','right_ring','right_majeure','right_index','right_thumb','right_wrist','right_bicep','right_bicep_rotate','right_shoulder_up','right_shoulder_side'])
 rospy.set_param('right_pinky','6')
 rospy.set_param('right_ring','5')
 rospy.set_param('right_majeure' ,'4')
@@ -24,7 +25,6 @@ rospy.set_param('right_shoulder_up','10')
 rospy.set_param('right_shoulder_side','11')
 
 #left arm
-rospy.set_param("joint_names",['left_pinky','left_ring','left_majeure','left_index','left_thumb','left_wrist','left_bicep','left_bicep_rotate','left_shoulder_up','left_shoulder_side'])
 rospy.set_param('left_pinky','6')
 rospy.set_param('left_ring','5')
 rospy.set_param('left_majeure' ,'4')
@@ -35,6 +35,15 @@ rospy.set_param('left_bicep','8')
 rospy.set_param('left_bicep_rotate','9')
 rospy.set_param('left_shoulder_up','10')
 rospy.set_param('left_shoulder_side','11')
+
+
+#head movement
+
+rospy.set_param("head_updown",'12')
+rospy.set_param("head_leftright",'13')
+rospy.set_param("jaw",'26')
+rospy.set_param("eyex",'22')
+rospy.set_param("eyes_updown",'24')
 
 print("Parameter Server Setup for LeftArm done")
 

@@ -1,20 +1,23 @@
 <launch>
-<!--<group ns="servobus/left" >
+<group ns="servobus/left" >
   <node pkg="rosserial_python" type="serial_node.py" name="rosserial" output="screen">
       <param name="port" value="/dev/ttyACM0"/>
       <param name="baud" value="57600"/>
   </node>
-</group>-->
+</group>
 
-<!-- <group ns="servobus/right" >
+ <group ns="servobus/left" >
   <node pkg="rosserial_python" type="serial_node.py" name="rosserial" output="screen">
       <param name="port" value="/dev/ttyACM1"/>
       <param name="baud" value="57600"/>
   </node>
-</group>-->
+</group>
 
 
 <node name="api_ai" pkg="bernado_tools" type="read_input_mic.py" output="screen">
+</node>
+
+<node name="trainer" pkg="bernado_tools" type="trainer.py" output="screen">
 </node>
 
 

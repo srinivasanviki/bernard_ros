@@ -1,0 +1,6 @@
+<launch>
+  <group>
+	<arg name="model" value="/home/viki/catkin_ws/src/bernado_ros/bernado_description/robots/inmoov.urdf"/>
+	<param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  </group>
+</launch>
