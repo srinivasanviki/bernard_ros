@@ -51,6 +51,9 @@ void calculate_joint_angles(std_msgs::Float64MultiArray array){
 	tf::poseMsgToEigen(target_position1, target_eig_pose1);
 	kinematic_state->setToIKSolverFrame(target_eig_pose1, group->getPlanningFrame()); // Convert to robotmodel frame if needed.
 	bool found_ik = kinematic_state->setFromIK(iiwa_modelgroup, target_eig_pose1, 10, 0.1);
+
+	kinematic_state->setToRandomPositions(iiwa_modelgroup);
+
 	if(!found_ik){
 	    ROS_INFO("Not Found");
 		return;

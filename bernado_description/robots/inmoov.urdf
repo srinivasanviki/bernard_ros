@@ -36,7 +36,7 @@
 <link name="mid_stomach">
     <visual>
       <geometry>
-        <mesh filename="package://mid_stomach.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/mid_stomach.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 1.152"/>
       <material name="cframe">
@@ -55,7 +55,7 @@
 <link name="top_stomach">
     <visual>
       <geometry>
-        <mesh filename="package://top_stomach.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/top_stomach.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -73,7 +73,7 @@
 <link name="disk">
     <visual>
       <geometry>
-        <mesh filename="package://disk.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/disk.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0.046 0"/>
       <material name="ccover">
@@ -91,7 +91,7 @@
 <link name="torso">
     <visual>
       <geometry>
-        <mesh filename="package://torso.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/torso.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -107,7 +107,7 @@
 <link name="chestplate">
     <visual>
       <geometry>
-        <mesh filename="package://chest.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/chest.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="ccover">
@@ -125,7 +125,7 @@
 <link name="kinect">
  <visual>
    <geometry>
-     <mesh filename="package://kinectone.dae" scale="0.001 0.001 0.001"/>
+     <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/kinectone.stl" scale="0.001 0.001 0.001"/>
    </geometry>
    <origin rpy="0 0 0" xyz="0 0 0"/>
    <material name="ckinect">
@@ -138,7 +138,7 @@
 <link name="head_tilt">
 <visual>
  <geometry>
-   <mesh filename="package://virtual.dae" scale="0.001 0.001 0.001"/>
+   <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/virtual.stl" scale="0.001 0.001 0.001"/>
  </geometry>
  <origin rpy="0 0 0" xyz="0 0 0"/>
  <material name="cframe">
@@ -164,7 +164,7 @@
 <link name="head_base">
   <visual>
     <geometry>
-      <mesh filename="package://head_base.dae" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/head_base.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <material name="cframe">
@@ -182,7 +182,7 @@
 <link name="head">
 <visual>
   <geometry>
-    <mesh filename="package://head.dae" scale="0.001 0.001 0.001"/>
+    <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/head.stl" scale="0.001 0.001 0.001"/>
   </geometry>
   <origin rpy="0 0 0" xyz="0 0 0"/>
   <material name="cframe">
@@ -200,7 +200,7 @@
 <link name="jaw">
   <visual>
     <geometry>
-      <mesh filename="package://jaw.dae" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/jaw.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <origin rpy="0 0 3.1415" xyz="0 0 0"/>
     <material name="ccover">
@@ -216,7 +216,7 @@
 <link name="skull">
     <visual>
       <geometry>
-        <mesh filename="package://skull.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/skull.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0.001 0 0"/>
       <material name="ccover">
@@ -232,7 +232,7 @@
 <link name="left_ear">
     <visual>
       <geometry>
-        <mesh filename="package://earleftv1.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/earleftv1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -248,7 +248,7 @@
  <link name="right_ear">
     <visual>
       <geometry>
-        <mesh filename="package://earrightv1.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/earrightv1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -264,7 +264,7 @@
     <link name="face">
       <visual>
         <geometry>
-          <mesh filename="package://face.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/face.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="ccover">
@@ -282,7 +282,7 @@
   <link name="eyesupport">
     <visual>
       <geometry>
-        <mesh filename="package://eyesupport.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/eyesupport.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -303,7 +303,7 @@
 <link name="right_shoulder_base">
   <visual>
     <geometry>
-      <mesh filename="package://right_shoulder_base.dae" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_shoulder_base.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <material name="cframe">
@@ -321,7 +321,7 @@
  <link name="right_shoulder">
     <visual>
       <geometry>
-        <mesh filename="package://right_shoulder.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_shoulder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="cframe">
@@ -339,7 +339,7 @@
   <link name="right_bicep">
       <visual>
         <geometry>
-          <mesh filename="package://bicep.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/bicep.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="cframe">
@@ -358,7 +358,7 @@
 <link name="right_forearm">
   <visual>
     <geometry>
-      <mesh filename="package://right_forearm.dae" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/right_forearm.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <origin rpy="0 0 0" xyz="0.001 0 0"/>
     <material name="ccover">
@@ -382,7 +382,7 @@
 <link name="left_shoulder_base">
 <visual>
 <geometry>
- <mesh filename="package://left_shoulder_base.dae" scale="0.001 0.001 0.001"/>
+ <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_shoulder_base.stl" scale="0.001 0.001 0.001"/>
 </geometry>
 <origin rpy="0 0 0" xyz="0 0 0"/>
 <material name="cframe">
@@ -400,7 +400,7 @@
 <link name="left_shoulder">
 <visual>
  <geometry>
-   <mesh filename="package://left_shoulder.dae" scale="0.001 0.001 0.001"/>
+   <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_shoulder.stl" scale="0.001 0.001 0.001"/>
  </geometry>
  <origin rpy="0 0 0" xyz="0 0 0"/>
  <material name="cframe">
@@ -420,7 +420,7 @@
 <link name="left_bicep">
  <visual>
    <geometry>
-     <mesh filename="package://bicep.dae" scale="0.001 0.001 0.001"/>
+     <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/bicep.stl" scale="0.001 0.001 0.001"/>
    </geometry>
    <origin rpy="0 0 0" xyz="0 0 0"/>
    <material name="cframe">
@@ -440,7 +440,7 @@
 <link name="left_forearm">
    <visual>
      <geometry>
-       <mesh filename="package://left_forearm.dae" scale="0.001 0.001 0.001"/>
+       <mesh filename="file:///home/viki/Desktop/bernado_ros/bernado_description/meshes/left_forearm.stl" scale="0.001 0.001 0.001"/>
      </geometry>
      <origin rpy="0 0 0" xyz="-0.001 0 0"/>
      <material name="ccover">
