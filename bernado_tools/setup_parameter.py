@@ -10,7 +10,7 @@ import rospkg
 rospy.set_param("move","/servobus/move")
 
 
-rospy.set_param("API_AI_TOKEN","b4cb129a45044853a29fbefcf350b035")
+rospy.set_param("API_AI_TOKEN","21cfb4649b47415498703b4809bd2c90")
  
 #right arm
 rospy.set_param('right_pinky','6')

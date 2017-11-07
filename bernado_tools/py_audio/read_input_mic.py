@@ -9,24 +9,34 @@ from std_msgs.msg import Header
 import numbers
 from Queue import Queue
 import threading
+
+import sys
+
+
+
 STORAGE_PATH= "/home/viki/Desktop/test_hark/audio"
 CREATION_PATH="/home/viki/Desktop/bernado_ros/bernado_tools/audio"
 Extraction_PATH="/home/viki/Desktop/bernado_ros/bernado_tools/extracted_path"
+
 filter_timestamp=[]
-already_greeted=False
+
 buffer_queue = Queue()
 class ReadInput():
     def __init__(self):
-        rospy.init_node('api_ai', anonymous=True)
+        rospy.init_node('speech', anonymous=True)
         self.seconds=0
         self.buffer={}
+        self.already_greeted=False
+        self.bernard_greeted=False
         self.speech_recognizer=sr.Recognizer()
         self.speech_recognizer.energy_threshold=3000
         audio_thread=threading.Thread(target=self.process_audio)
-        audio_thread.start()
         self.pub=rospy.Publisher('joint_states', JointState, queue_size=10)
         self.sound_localization=rospy.Subscriber("HarkSource",HarkSource, self.read_localization_results)
+        self.bernard_initialized=False
+        audio_thread.start()
         rospy.spin()
+
 
     def read_api_ai(self,speech_text):
         api_token=rospy.get_param("API_AI_TOKEN")
@@ -36,10 +46,22 @@ class ReadInput():
         response = self.request.getresponse()
         return response.read()
 
+    def convert_text_speech(self,text):
+        from sound_play.libsoundplay import SoundClient
+        print ("Inside sound play %s"%(text))
+        soundhandle = SoundClient()
+        rospy.sleep(1)
+        soundhandle.say(text)
+        rospy.sleep(1)
+
     def convert_wav_text(self,file_name):
-        with sr.WavFile("%s/%s"%(CREATION_PATH,file_name)) as source:
-            audio = self.speech_recognizer.record(source)
-        return self.speech_recognizer.recognize_google(audio)
+        import httplib
+        try:
+            with sr.WavFile("%s/%s"%(CREATION_PATH,file_name)) as source:
+                audio = self.speech_recognizer.record(source)
+            return self.speech_recognizer.recognize_google(audio)
+        except httplib.HTTPException:
+            return "Text Not Found"
 
     def convert_to_mono(self):
         import os
@@ -50,47 +72,49 @@ class ReadInput():
 
     def greeted_bernard(self):
         import os
+        import json
         dirs = os.listdir(CREATION_PATH)
         try:
             for file_name in dirs:
                 if "sep" in file_name:
                     text=self.convert_wav_text(file_name)
                     response=self.read_api_ai(text)
-                    if "Bernard" in text:
-                        return response,True
-                return response,False
+                    speech_resp=json.loads(response)
+                    speech=speech_resp.get("result").get("fulfillment").get("speech")
+                    if self.bernard_initialized:
+                        return speech,False
+                    else:
+                        if "Bernard" in text:
+                            self.bernard_initialized=True
+                            return speech,True
+
+            return None,False
         except sr.UnknownValueError as e:
-            e.message
+            return None,False
 
     def clear_buffer(self):
         for timestamp in filter_timestamp:
-            del self.buffer[timestamp]
+            if self.buffer.get(timestamp):
+                del self.buffer[timestamp]
 
-    def publish_audio(self,response):
-        from sound_play.libsoundplay import SoundClient
-        self.soundhandle = SoundClient()
-        rospy.sleep(1)
-        self.soundhandle.say(response)
+    def remove_file(self):
+        import os
+        dirs = os.listdir(CREATION_PATH)
+        for file in dirs:
+            os.remove("%s/%s"%(CREATION_PATH,file))
 
     def process_audio(self):
-        import math
-        try:
-            while True:
-                if len(self.buffer) > 0:
-                    for timestamp,audio_buffer in self.buffer.items():
-                            self.extract_audio(timestamp)
-                            self.convert_to_mono()
-                            response,greeted=self.greeted_bernard()
-                            filter_timestamp.append(timestamp)
-                            if greeted:
-                                already_greeted=True
-                                if len(audio_buffer)>0:
-                                   self.publish_joint_states(math.radians(max(audio_buffer)))
-                                   self.clear_buffer()
-                            if already_greeted:
-                                self.publish_audio(response)
-        except Exception as e:
-            e.message
+        import os
+        while True:
+            for timestamp,audio_buffer in self.buffer.copy().items():
+                self.extract_audio(timestamp)
+                self.convert_to_mono()
+                response,greeted=self.greeted_bernard()
+                filter_timestamp.append(timestamp)
+                self.remove_file()
+                if response != None:
+                    self.convert_text_speech(response)
+
 
     def read_localization_results(self,msg):
         timestamp=msg.header.stamp.secs
@@ -114,7 +138,6 @@ class ReadInput():
         self.pub.publish(joint_state)
         rate.sleep()
 
-
     def extract_audio(self,sec):
         from pydub import AudioSegment
         import os
@@ -129,11 +152,10 @@ class ReadInput():
                 elapsed=time_source-time
                 newAudio = AudioSegment.from_wav("%s/%s"%(STORAGE_PATH,file))
                 duration=int(newAudio.duration_seconds)*1000
-                source_duration=abs( elapsed.total_seconds())
+                source_duration=abs(elapsed.total_seconds())
                 source_duration=int(source_duration)*1000
                 newAudio = newAudio[source_duration:duration]
                 newAudio.export('%s/%s'%(Extraction_PATH,file), format="wav")
-
 
 if __name__=="__main__":
     speech_transform=ReadInput()
