@@ -14,13 +14,17 @@
 </group>-->
 
 
-<!--<node name="vision" pkg="bernado_tools" type="initiate_vision_process.py" output="screen" >
-</node>-->
-
-<node name="speech" pkg="bernado_tools" type="read_input_mic.py" output="screen">
+<node name="vision" pkg="bernado_tools" type="initiate_vision_process.py" output="screen" >
 </node>
 
-<!--<node name="trainer" pkg="bernado_tools" type="trainer.py" output="screen">
+<!--<node name="sound_play" pkg="sound_play" type="soundplay_node.py" output="screen">
+</node>-->
+
+
+<!--<node name="speech" pkg="bernado_tools" type="read_input_mic.py" output="screen">
+</node>-->
+
+<!--node name="trainer" pkg="bernado_tools" type="trainer.py" output="screen">
 </node>-->
 
 

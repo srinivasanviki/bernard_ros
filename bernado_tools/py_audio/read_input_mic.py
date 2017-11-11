@@ -9,6 +9,7 @@ from std_msgs.msg import Header
 import numbers
 from Queue import Queue
 import threading
+from speech_recognition_apiai import RecognizeSpeech
 
 import sys
 
@@ -19,6 +20,8 @@ CREATION_PATH="/home/viki/Desktop/bernado_ros/bernado_tools/audio"
 Extraction_PATH="/home/viki/Desktop/bernado_ros/bernado_tools/extracted_path"
 
 filter_timestamp=[]
+
+
 
 buffer_queue = Queue()
 class ReadInput():
@@ -34,34 +37,21 @@ class ReadInput():
         self.pub=rospy.Publisher('joint_states', JointState, queue_size=10)
         self.sound_localization=rospy.Subscriber("HarkSource",HarkSource, self.read_localization_results)
         self.bernard_initialized=False
+        self.speech_rec=RecognizeSpeech()
         audio_thread.start()
         rospy.spin()
 
-
-    def read_api_ai(self,speech_text):
-        api_token=rospy.get_param("API_AI_TOKEN")
-        self.ai = apiai.ApiAI(api_token)
-        self.request = self.ai.text_request()
-        self.request.query = speech_text
-        response = self.request.getresponse()
-        return response.read()
-
-    def convert_text_speech(self,text):
-        from sound_play.libsoundplay import SoundClient
-        print ("Inside sound play %s"%(text))
-        soundhandle = SoundClient()
-        rospy.sleep(1)
-        soundhandle.say(text)
-        rospy.sleep(1)
-
     def convert_wav_text(self,file_name):
         import httplib
+        import time
         try:
             with sr.WavFile("%s/%s"%(CREATION_PATH,file_name)) as source:
                 audio = self.speech_recognizer.record(source)
             return self.speech_recognizer.recognize_google(audio)
-        except httplib.HTTPException:
-            return "Text Not Found"
+
+        except httplib.HTTPException as e:
+               print ("Exception")
+
 
     def convert_to_mono(self):
         import os
@@ -78,7 +68,7 @@ class ReadInput():
             for file_name in dirs:
                 if "sep" in file_name:
                     text=self.convert_wav_text(file_name)
-                    response=self.read_api_ai(text)
+                    response=self.speech_rec.read_api_ai(text)
                     speech_resp=json.loads(response)
                     speech=speech_resp.get("result").get("fulfillment").get("speech")
                     if self.bernard_initialized:
@@ -104,7 +94,6 @@ class ReadInput():
             os.remove("%s/%s"%(CREATION_PATH,file))
 
     def process_audio(self):
-        import os
         while True:
             for timestamp,audio_buffer in self.buffer.copy().items():
                 self.extract_audio(timestamp)
@@ -112,9 +101,16 @@ class ReadInput():
                 response,greeted=self.greeted_bernard()
                 filter_timestamp.append(timestamp)
                 self.remove_file()
+                # if greeted:
+                #     self.already_greeted=True
+                #     if len(audio_buffer)>0:
+                #         self.publish_joint_states(math.radians(max(audio_buffer)),"head_leftright")
+                #         self.clear_buffer()
+                #     if self.already_greeted:
+                #         self.recognize.convert_text_speech(response)
                 if response != None:
-                    self.convert_text_speech(response)
-
+                    self.speech_rec.convert_text_speech(response)
+                    self.publish_joint_states(40,"jaw")
 
     def read_localization_results(self,msg):
         timestamp=msg.header.stamp.secs
@@ -125,13 +121,13 @@ class ReadInput():
         self.buffer[timestamp]=audio_buffer
 
 
-    def publish_joint_states(self,goal):
+    def publish_joint_states(self,goal,part):
         import math
         rate = rospy.Rate(10)
         joint_state = JointState()
         joint_state.header = Header()
         joint_state.header.stamp = rospy.Time.now()
-        joint_state.name = ['head_leftright']
+        joint_state.name = [part]
         joint_state.position = [math.radians(int(goal))]
         joint_state.velocity = []
         joint_state.effort = []

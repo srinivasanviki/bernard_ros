@@ -65,12 +65,11 @@ class BernadController():
 
     def publish_joint(self):
         for joint,position in self.joints.iteritems():
-            if joint in ["left_bicep","left_shoulder_up","left_shoulder_side"]:
-                if position!=0.0:
-                    print joint,position
-                    port=rospy.get_param(joint)
-                    bernard=self.initialize_bernard(int(port),int((position)))
-                    self.publish_data(bernard)
+            if position!=0.0:
+                print joint,position
+                port=rospy.get_param(joint)
+                bernard=self.initialize_bernard(int(port),int((position)))
+                self.publish_data(bernard)
 
 if __name__=="__main__":
     bernard=BernadController()
