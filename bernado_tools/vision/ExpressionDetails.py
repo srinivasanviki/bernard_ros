@@ -2,20 +2,21 @@ import cv2
 from keras.models import load_model
 import numpy as np
 
-from datasets import get_labels
+from dataset import get_labels
 from inference import detect_faces, apply_offsets,load_detection_model
 
-from preprocessor import preprocess_input
+from preprocessing import preprocess_input
 
 
+PATH='/home/viki/Desktop/bernado_ros/bernado_tools'
 #[0:'angry',1:'disgust',2:'fear',3:'happy',4:'sad',5:'surprise',6:'neutral']
 
 # parameters for loading data and images
 def ExpressionDetection (image):
-    detection_model_path = 'src/get_image/doc/haarcascade_frontalface_default.xml'
+    detection_model_path = "%s/%s/haarcascade_frontalface_default.xml"%(PATH,"haar_cascade")
 
 
-    emotion_model_path = 'src/get_image/models/fer2013_mini_XCEPTION.102-0.66.hdf5'
+    emotion_model_path = '%s/vision/models/fer2013_mini_XCEPTION.102-0.66.hdf5'%(PATH)
     emotion_labels = get_labels('fer2013')
 
     # loading models
@@ -32,14 +33,14 @@ def ExpressionDetection (image):
     # print 'dddddddd',gray_image
     #gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    faces = detect_faces(face_detection, image)
+    gray_image=cv2.imread(image,0)
+    faces = detect_faces(face_detection,gray_image)
     # print 'qqqqqqqq',faces
 
     for face_coordinates in faces:
 
         x1, x2, y1, y2 = apply_offsets(face_coordinates, emotion_offsets)
-        gray_face = image[y1:y2, x1:x2]
+        gray_face = gray_image[y1:y2, x1:x2]
         try:
             gray_face = cv2.resize(gray_face, (emotion_target_size))
         except:

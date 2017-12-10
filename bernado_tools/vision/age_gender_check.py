@@ -3,27 +3,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import cv2
-from check import identification
+
 #sys.path.append('/home/caffe/python')
 
 # caffe_root = '/home/caffe/'
 # import sys
 # sys.path.append(caffe_root + 'python')
 import caffe
-import test
+
+PATH='/home/viki/Desktop/bernado_ros/bernado_tools'
 
 def agegender(example_image):
     plt.rcParams['figure.figsize'] = (10, 10)
     plt.rcParams['image.interpolation'] = 'nearest'
     plt.rcParams['image.cmap'] = 'gray'
 
-    mean_filename='src/get_image/models/mean.binaryproto'
+    mean_filename='%s/vision/models/mean.binaryproto'%(PATH)
     proto_data = open(mean_filename, "rb").read()
     a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
     mean  = caffe.io.blobproto_to_array(a)[0]
 
-    age_net_pretrained='src/get_image/models/age_net.caffemodel'
-    age_net_model_file='src/get_image/doc/agedeploy.prototxt'
+    age_net_pretrained='%s/vision/models/age_net.caffemodel'%(PATH)
+    age_net_model_file='%s/vision/doc/agedeploy.prototxt'%(PATH)
     age_net = caffe.Classifier(age_net_model_file, age_net_pretrained,
                                mean=mean,
                                channel_swap=(2,1,0),
@@ -31,8 +32,8 @@ def agegender(example_image):
                                image_dims=(256, 256))
 
 
-    gender_net_pretrained='src/get_image/models/gender_net.caffemodel'
-    gender_net_model_file='src/get_image/doc/genderdeploy.prototxt'
+    gender_net_pretrained='%s/vision/models/gender_net.caffemodel'%(PATH)
+    gender_net_model_file='%s/vision/doc/genderdeploy.prototxt'%(PATH)
     gender_net = caffe.Classifier(gender_net_model_file, gender_net_pretrained,
                                   mean=mean,
                                   channel_swap=(2,1,0),
